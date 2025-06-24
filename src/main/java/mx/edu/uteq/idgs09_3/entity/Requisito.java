@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package mx.edu.uteq.idgs09.idgs09_01.model.entity;
+package mx.edu.uteq.idgs09_3.entity;
 
 
 import jakarta.persistence.Transient;

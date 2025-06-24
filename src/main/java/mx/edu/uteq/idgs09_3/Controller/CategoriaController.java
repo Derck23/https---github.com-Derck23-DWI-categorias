@@ -1,4 +1,4 @@
-package mx.edu.uteq.idgs03.Controller;
+package mx.edu.uteq.idgs09_3.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

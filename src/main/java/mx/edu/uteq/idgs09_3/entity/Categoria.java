@@ -1,4 +1,4 @@
-package mx.edu.uteq.idgs03.model;
+package mx.edu.uteq.idgs09_3.entity;
 
 import java.util.List;
 import jakarta.persistence.Entity;
