@@ -1,31 +1,39 @@
 package mx.edu.uteq.idgs09_3.service;
 
 import java.util.List;
+
 import java.util.Optional;
-import mx.edu.uteq.idgs09_3.model.entity.TipoRequisito;
-import mx.edu.uteq.idgs09_3.model.repository.TipoRequisitoRepo;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import mx.edu.uteq.idgs09_3.model.repository.TipoRequisitoRepo;
+import mx.edu.uteq.idgs09_3.model.entity.TipoRequisitos; // Asegúrate que la ruta es correcta
 
 @Service
 public class TipoRequisitoService {
-
     @Autowired
-    private TipoRequisitoRepo tipoRequisitoRepo;
+    private TipoRequisitoRepo repo;
 
-    public List<TipoRequisito> findAll() {
-        return tipoRequisitoRepo.findAll();
+    @Transactional(readOnly = true)
+    public List<TipoRequisitos> findAll() {
+        return repo.findAll();
     }
 
-    public Optional<TipoRequisito> findById(Long id) {
-        return tipoRequisitoRepo.findById(id);
+    @Transactional(readOnly = true)
+    public Optional<TipoRequisitos> findById(int id) {
+        return repo.findById(id);
     }
 
-    public TipoRequisito save(TipoRequisito tipoRequisito) {
-        return tipoRequisitoRepo.save(tipoRequisito);
+    @Transactional
+    public TipoRequisitos save(TipoRequisitos pe) {
+        return repo.save(pe);
     }
 
-    public void deleteById(Long id) {
-        tipoRequisitoRepo.deleteById(id);
+    @Transactional
+    public void deleteById(int id) {
+        repo.deleteById(id);
     }
+
 }
