@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import mx.edu.uteq.idgs09_3.Service.RequisitoService;
 import mx.edu.uteq.idgs09_3.model.entity.Requisito;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,13 +26,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/api/requisito")
 public class RequistoController {
 
+    @Autowired
+    private RequisitoService serv;
+
     @GetMapping()
     public List<Requisito> buscartodos(@RequestParam boolean soloActivos) {
         return serv.buscar(soloActivos);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Division> buscarPorId(@PathVariable int id) {
+    public ResponseEntity<Requisito> buscarPorId(@PathVariable int id) {
         return serv.buscarPorId(id)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build()); 
@@ -44,23 +49,23 @@ public class RequistoController {
     }*/
 
 
-    @GetMapping("/{id}/programas")
+    /*@GetMapping("/{id}/programas")
     public ResponseEntity<List<ProgramaEducativo>> getProgramasPorDivision(@PathVariable int id) {
         //Optional<Division> division = repo.findById(id);
         /*if (division.isPresent()) {
             return ResponseEntity.ok(division.get().getProgramaEducativos());
         }*/
-        return ResponseEntity.notFound().build();
-    }
+        /*return ResponseEntity.notFound().build();
+    } */
 
     @PostMapping()
-    public ResponseEntity<?> crear(@RequestBody Division d) {
-        Division entity = serv.crear(d);
+    public ResponseEntity<?> crear(@RequestBody Requisito r) {
+        Requisito entity = serv.crear(r);
         return ResponseEntity.ok(entity);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editar(@PathVariable int id, @RequestBody Division entity) {
+    public ResponseEntity<?> editar(@PathVariable int id, @RequestBody Requisito entity) {
         //Optional<Division> opt = repo.findById(id);
         /*if (opt.isPresent()) {
             Division d = opt.get();
@@ -69,7 +74,7 @@ public class RequistoController {
             d.setActivo(entity.isActivo());
             return ResponseEntity.ok(repo.save(d));
         }*/
-        Optional<Division> opt = serv.editar(id, entity);
+        Optional<Requisito> opt = serv.editar(id, entity);
         if (opt.isPresent()) {
             return ResponseEntity.ok(opt.get());
         }

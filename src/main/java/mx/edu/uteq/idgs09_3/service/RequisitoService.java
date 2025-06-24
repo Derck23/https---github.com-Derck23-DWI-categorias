@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import mx.edu.uteq.idgs09.idgs09_01.model.repository.ProgramaEducativoRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import mx.edu.uteq.idgs09_3.model.entity.Requisito;
-
+import mx.edu.uteq.idgs09_3.model.entity.Requisito;
+import mx.edu.uteq.idgs09_3.model.repository.RequisitoRepo;
 import java.util.List;
 import java.util.Optional;
 //import mx.edu.uteq.idgs09.idgs09_01.clients.ProfesorClientRest;
@@ -17,56 +17,49 @@ import java.util.Optional;
 
 @Service
 public class RequisitoService {
-    /*@Autowired
-    private ProgramaEducativoRepo repo;
-
     @Autowired
-    private ProfesorClientRest client;*/
-
+    private RequisitoRepo repo;
 
     @Transactional(readOnly = true)
-    public List<Requisito> findAll() {
+    public List<Requisito> buscar(boolean soloActivo) {
+        if (soloActivo) {
+            return repo.findAll().stream().filter(Requisito::isActivo).toList();
+        }
         return repo.findAll();
     }
 
     @Transactional(readOnly = true)
-    public Optional<ProgramaEducativo> findById(int id) {
+    public Optional<Requisito> buscarPorId(int id) {
         return repo.findById(id);
     }
 
     @Transactional
-    public ProgramaEducativo save(ProgramaEducativo pe) {
-        return repo.save(pe);
+    public Requisito crear(Requisito requisito) {
+        return repo.save(requisito);
     }
 
     @Transactional
-    public void deleteById(int id) {
-        repo.deleteById(id);
-    }
-
-    @Transactional
-    public Optional<Profesor> asignarProfesor(Profesor p, int peId) {
-        Optional<ProgramaEducativo> opt = repo.findById(peId);
+    public Optional<Requisito> editar(int id, Requisito requisito) {
+        Optional<Requisito> opt = repo.findById(id);
         if (opt.isPresent()) {
-            ProgramaEducativo pe = opt.get();
-
-            Profesor profesorMsvc = client.buscarPorId(p.getId());
-            profesorMsvc.setClavepe(pe.getClave());
-            client.editarProfesor(p.getId(), profesorMsvc);
-
-            ProgramaEducativoProfesor progEduProf = new ProgramaEducativoProfesor();
-            progEduProf.setProfesorId(profesorMsvc.getId());
-
-            pe.addProgramaEducativoProfesor(progEduProf);
-            repo.save(pe);
-            return Optional.of(profesorMsvc);
+            Requisito r = opt.get();
+            r.setNombre(requisito.getNombre());
+            r.setTipoR(requisito.getTipoR());
+            r.setCategoria(requisito.getCategoria());
+            r.setActivo(requisito.isActivo());
+            return Optional.of(repo.save(r));
         }
-        return Optional.empty();
+        return opt;
     }
 
-    @Transactional(readOnly = true)
-    public ProgramaEducativo buscarPorClve(String clave) {
-        return repo.findByClave(clave);
+    @Transactional
+    public boolean borrar(int id) {
+        Optional<Requisito> opt = repo.findById(id);
+        if (opt.isPresent()){
+            repo.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 }

@@ -1,4 +1,4 @@
-package mx.edu.uteq.idgs03.repository;
+package mx.edu.uteq.idgs03.model.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
