@@ -1,4 +1,4 @@
-package mx.edu.uteq.idgs09_3.entity;
+package mx.edu.uteq.idgs09_3.model.entity;
 
 import java.util.List;
 import jakarta.persistence.Entity;
@@ -13,14 +13,17 @@ import jakarta.persistence.JoinColumn;
 
 @Entity
 @Data
-public class Categoria {
+public class Categorias {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String nombre;
-    private String anterior;
+    private String categoria;
+    private String categoria_ant;
+    private String categoria_fed;   
+    private String categoria_est;
+    private boolean activo;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "categoria_id")
-    //private List<TipoRequisito> tipoRequisitos;
+    private List<TipoRequisitos> tipoRequisitos;
     
 }
