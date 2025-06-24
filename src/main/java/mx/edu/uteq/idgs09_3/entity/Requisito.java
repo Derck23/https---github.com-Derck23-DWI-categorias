@@ -7,8 +7,6 @@ package mx.edu.uteq.idgs09_3.entity;
 
 
 import jakarta.persistence.Transient;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,8 +17,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.CascadeType;
 import lombok.Data;
 import java.util.List;
-import mx.edu.uteq.idgs09.idgs09_01.model.dto.Profesor;
-import mx.edu.uteq.idgs09.idgs09_01.model.entity.ProgramaEducativoProfesor;
 
 
 
@@ -37,16 +33,17 @@ public class Requisito {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String clave;
-    private String programaEducativo;
-    private boolean activo;
+    private String nombre;
+    private String tipoR;
+    private boolean categoria;
     
-    @ManyToOne
+    
+    /*@ManyToOne
     @JoinColumn(name = "id_division")
-    @JsonIgnoreProperties("programaEducativos")
-    private Division division;
+    @JsonIgnoreProperties("programaEducativos")*/
+    //private Division division;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "programa_educativo_id")
     private List<ProgramaEducativoProfesor> peProfesores;
 
@@ -59,7 +56,7 @@ public class Requisito {
 
     public void removeProgramaEducativoProfesor(ProgramaEducativoProfesor peProf) {
         peProfesores.remove(peProf);
-    }    
+    }    */
 
 }
 
