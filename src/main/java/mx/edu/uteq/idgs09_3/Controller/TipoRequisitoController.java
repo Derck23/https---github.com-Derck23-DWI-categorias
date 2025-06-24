@@ -1,58 +1,85 @@
 package mx.edu.uteq.idgs09_3.Controller;
 
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import mx.edu.uteq.idgs09_3.model.entity.TipoRequisito;
+import mx.edu.uteq.idgs09_3.model.entity.TipoRequisitos;
+import mx.edu.uteq.idgs09_3.model.repository.TipoRequisitoRepo;
 import mx.edu.uteq.idgs09_3.Service.TipoRequisitoService;
 import java.util.List;
 import java.util.Optional;
 
+import mx.edu.uteq.idgs09_3.model.entity.Categorias;
+import mx.edu.uteq.idgs09_3.model.entity.TipoRequisitos;
+import mx.edu.uteq.idgs09_3.model.repository.CategoriaRepo;
+import mx.edu.uteq.idgs09_3.Service.TipoRequisitoService;
+
+import org.springframework.web.bind.annotation.*;
+
 @RestController
-@RequestMapping("/api/tipo-requisitos")
+@RequestMapping("/api/trequisitos")
 public class TipoRequisitoController {
 
+    @Autowired 
+    private TipoRequisitoService serv;
+
     @Autowired
-    private TipoRequisitoService tipoRequisitoService;
+    private CategoriaRepo dRepo;
 
     @GetMapping
-    public ResponseEntity<List<TipoRequisito>> getAll() {
-        List<TipoRequisito> tipos = tipoRequisitoService.findAll();
-        return ResponseEntity.ok(tipos);
+    public List<TipoRequisitos> buscarTodos(@RequestParam boolean soloActivos) {
+        if (soloActivos) {
+            return serv.findAll().stream().filter(TipoRequisitos::isActivo).toList();
+        }
+        return serv.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TipoRequisito> getById(@PathVariable Long id) {
-        Optional<TipoRequisito> tipoOptional = tipoRequisitoService.findById(id);
-        return tipoOptional.map(ResponseEntity::ok)
-                          .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<?> buscarPorId(@PathVariable int id) {
+        return serv.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<TipoRequisito> create(@RequestBody TipoRequisito tipoRequisito) {
-        TipoRequisito nuevoTipo = tipoRequisitoService.save(tipoRequisito);
-        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoTipo);
+    public ResponseEntity<?> crear(@RequestParam int idCategioria, @RequestBody TipoRequisitos pe) {
+        Optional<Categorias> opt = dRepo.findById(idCategioria);
+        if (opt.isPresent()) {
+            Categorias d = opt.get();
+            pe.setCategoria(d);
+            return ResponseEntity.ok(serv.save(pe));
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TipoRequisito> update(
-            @PathVariable Long id, 
-            @RequestBody TipoRequisito tipoRequisito) {
-        if (!tipoRequisitoService.findById(id).isPresent()) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> editar(@PathVariable int id, @RequestBody TipoRequisitos pe) {
+        Optional<TipoRequisitos> opt = serv.findById(id);
+        if (opt.isPresent()) {
+            TipoRequisitos p = opt.get();
+            Optional<Categorias> catOpt = dRepo.findById(pe.getCategoria().getId());
+            if (catOpt.isPresent()) {
+                p.setRequisito(pe.getRequisito());
+                p.setActivo(pe.isActivo());
+                p.setCategoria(catOpt.get());
+                return ResponseEntity.ok(serv.save(p));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Division no encontrada");
+            }
         }
-        tipoRequisito.setId(id);
-        TipoRequisito tipoActualizado = tipoRequisitoService.save(tipoRequisito);
-        return ResponseEntity.ok(tipoActualizado);
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
-        if (!tipoRequisitoService.findById(id).isPresent()) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> borrar(@PathVariable int id) {
+        Optional<TipoRequisitos> opt = serv.findById(id);
+        if (opt.isPresent()) {
+            serv.deleteById(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        tipoRequisitoService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
     }
 }

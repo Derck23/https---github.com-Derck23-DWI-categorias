@@ -40,23 +40,6 @@ public class RequistoController {
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build()); 
     }
-    /*@GetMapping("/{id}")
-    public ResponseEntity<Division> buscarPorId(@PathVariable int id) {
-        return repo.findById(id)
-            .filter(Division::isActivo)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
-    }*/
-
-
-    /*@GetMapping("/{id}/programas")
-    public ResponseEntity<List<ProgramaEducativo>> getProgramasPorDivision(@PathVariable int id) {
-        //Optional<Division> division = repo.findById(id);
-        /*if (division.isPresent()) {
-            return ResponseEntity.ok(division.get().getProgramaEducativos());
-        }*/
-        /*return ResponseEntity.notFound().build();
-    } */
 
     @PostMapping()
     public ResponseEntity<?> crear(@RequestBody Requisito r) {
@@ -66,14 +49,6 @@ public class RequistoController {
 
     @PutMapping("/{id}")
     public ResponseEntity<?> editar(@PathVariable int id, @RequestBody Requisito entity) {
-        //Optional<Division> opt = repo.findById(id);
-        /*if (opt.isPresent()) {
-            Division d = opt.get();
-            d.setClave(entity.getClave());
-            d.setNombre(entity.getNombre());
-            d.setActivo(entity.isActivo());
-            return ResponseEntity.ok(repo.save(d));
-        }*/
         Optional<Requisito> opt = serv.editar(id, entity);
         if (opt.isPresent()) {
             return ResponseEntity.ok(opt.get());
@@ -83,11 +58,6 @@ public class RequistoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable int id) {
-       /*  Optional<Division> opt = repo.findById(id);
-        if (opt.isPresent()) {
-            repo.deleteById(id);
-            return ResponseEntity.ok().build();
-        }*/
         if (serv.borrar(id)) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }

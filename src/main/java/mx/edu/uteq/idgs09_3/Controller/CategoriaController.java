@@ -11,42 +11,40 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import mx.edu.uteq.idgs03.model.Categoria;
-import mx.edu.uteq.idgs03.repository.CategoriaRepo;
+import mx.edu.uteq.idgs09_3.model.entity.Categorias;
 import java.util.List;
 import java.util.Optional;
-import mx.edu.uteq.idgs03.service.CategoriaService;
+import mx.edu.uteq.idgs09_3.Service.CategoriaService;
 
 @RestController
 @RequestMapping("/api/categorias")
 public class CategoriaController {
 
     @Autowired
-    private CategoriaRepo service;
+    private CategoriaService service;
 
     @GetMapping()
-    public List<Categoria> buscarTodos(@RequestParam boolean soloActivo) {
+    public List<Categorias> buscarTodos(@RequestParam boolean soloActivo) {
         return service.buscar(soloActivo);
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categoria> buscarPorId(@PathVariable int id) {
+    public ResponseEntity<Categorias> buscarPorId(@PathVariable int id) {
         return service.buscarPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping()
-    public ResponseEntity<?> crear(@RequestBody Categoria c) {
-        Categoria entity = service.crear(c);
+    public ResponseEntity<?> crear(@RequestBody Categorias c) {
+        Categorias entity = service.crear(c);
         return ResponseEntity.ok(entity);
     }
 
     @GetMapping("path")
-    public ResponseEntity<?> editar(@PathVariable int id, @RequestBody Categoria entity) {
-        Optional<Categoria> optional = service.editar(id, entity);
+    public ResponseEntity<?> editar(@PathVariable int id, @RequestBody Categorias entity) {
+        Optional<Categorias> optional = service.editar(id, entity);
         if (optional.isPresent()) {
             return ResponseEntity.ok(optional.get());
     }
@@ -55,7 +53,7 @@ public class CategoriaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> eliminar(@PathVariable int id) {
-        if (service.eliminar(id)) {
+        if (service.borrar(id)) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         return ResponseEntity.notFound().build();
