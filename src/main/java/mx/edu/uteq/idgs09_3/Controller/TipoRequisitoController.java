@@ -46,7 +46,6 @@ public class TipoRequisitoController {
         TipoRequisito tipoActualizado = tipoRequisitoService.save(tipoRequisito);
         return ResponseEntity.ok(tipoActualizado);
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         if (!tipoRequisitoService.findById(id).isPresent()) {
