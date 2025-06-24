@@ -72,7 +72,6 @@ public class TipoRequisitoController {
         }
         return ResponseEntity.notFound().build();
     }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<?> borrar(@PathVariable int id) {
         Optional<TipoRequisitos> opt = serv.findById(id);
