@@ -12,11 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import mx.edu.uteq.idgs09_3.Service.DivisionService;
-import mx.edu.uteq.idgs09_3.model.entity.Division;
-import mx.edu.uteq.idgs09_3.model.entity.ProgramaEducativo;
-import mx.edu.uteq.idgs09_3.model.repository.DivisionRepo;
+import mx.edu.uteq.idgs09_3.model.entity.Requisito;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
@@ -25,17 +21,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("/api/division")
-public class DivisionController {
-
-    /*@Autowired
-    private DivisionRepo repo;*/
-
-    @Autowired
-    private DivisionService serv;
+@RequestMapping("/api/requisito")
+public class RequistoController {
 
     @GetMapping()
-    public List<Division> buscartodos(@RequestParam boolean soloActivos) {
+    public List<Requisito> buscartodos(@RequestParam boolean soloActivos) {
         return serv.buscar(soloActivos);
     }
 

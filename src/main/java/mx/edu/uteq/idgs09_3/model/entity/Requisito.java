@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package mx.edu.uteq.idgs09_3.entity;
+package mx.edu.uteq.idgs09_3.model.entity;
 
 
 import jakarta.persistence.Transient;
@@ -35,7 +35,8 @@ public class Requisito {
     private int id;
     private String nombre;
     private String tipoR;
-    private boolean categoria;
+    private String categoria;
+    private boolean activo;
     
     
     /*@ManyToOne
