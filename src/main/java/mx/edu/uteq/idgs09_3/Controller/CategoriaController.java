@@ -39,9 +39,26 @@ public class CategoriaController {
     }
 
     @PostMapping()
-    public ResponseEntity<Categoria> crear(@RequestBody Categoria c) {
+    public ResponseEntity<?> crear(@RequestBody Categoria c) {
         Categoria entity = service.crear(c);
         return ResponseEntity.ok(entity);
+    }
+
+    @GetMapping("path")
+    public ResponseEntity<?> editar(@PathVariable int id, @RequestBody Categoria entity) {
+        Optional<Categoria> optional = service.editar(id, entity);
+        if (optional.isPresent()) {
+            return ResponseEntity.ok(optional.get());
+    }
+    return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminar(@PathVariable int id) {
+        if (service.eliminar(id)) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     
