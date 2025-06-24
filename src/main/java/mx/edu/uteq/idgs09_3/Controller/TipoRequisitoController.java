@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import mx.edu.uteq.idgs09_3.model.entity.TipoRequisito;
-import mx.edu.uteq.idgs09_3.service.TipoRequisitoService;
+import mx.edu.uteq.idgs09_3.Service.TipoRequisitoService;
 import java.util.List;
 import java.util.Optional;
 
