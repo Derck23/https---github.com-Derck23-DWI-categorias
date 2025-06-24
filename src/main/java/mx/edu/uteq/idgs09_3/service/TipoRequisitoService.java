@@ -1,4 +1,4 @@
-package mx.edu.uteq.idgs09_3.Service;
+package mx.edu.uteq.idgs09_3.service;
 
 import java.util.List;
 
