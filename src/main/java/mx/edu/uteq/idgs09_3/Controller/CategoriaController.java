@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import mx.edu.uteq.idgs09_3.model.entity.Categorias;
 import java.util.List;
 import java.util.Optional;
-import mx.edu.uteq.idgs09_3.service.CategoriaService;
+import mx.edu.uteq.idgs09_3.Service.CategoriaService;
 
 @RestController
 @RequestMapping("/api/categorias")
