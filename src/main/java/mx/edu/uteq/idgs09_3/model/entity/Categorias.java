@@ -25,8 +25,8 @@ public class Categorias {
     private String categoria_fed;   
     private String categoria_est;
     private boolean activo;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "categoria_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoria")
+
     //@JsonIgnore
     private List<TipoRequisitos> tipoRequisitos;
     

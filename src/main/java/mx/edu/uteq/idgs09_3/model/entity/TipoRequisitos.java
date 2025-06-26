@@ -18,6 +18,7 @@ import lombok.Data;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  *
@@ -35,8 +36,9 @@ public class TipoRequisitos {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
-    @JsonIgnore
+    @JsonIgnoreProperties("tipoRequisitos")
     private Categorias categoria;
+
 
     public void setCategoria(Categorias categoria) {
         this.categoria = categoria;
