@@ -1,6 +1,9 @@
 package mx.edu.uteq.idgs09_3.model.entity;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +27,8 @@ public class Categorias {
     private boolean activo;
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "categoria_id")
+    //@JsonIgnore
     private List<TipoRequisitos> tipoRequisitos;
     
 }
+
