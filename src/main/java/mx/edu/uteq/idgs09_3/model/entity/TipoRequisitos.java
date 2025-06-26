@@ -17,6 +17,8 @@ import jakarta.persistence.CascadeType;
 import lombok.Data;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author erami
@@ -33,6 +35,7 @@ public class TipoRequisitos {
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
+    @JsonIgnore
     private Categorias categoria;
 
     public void setCategoria(Categorias categoria) {
