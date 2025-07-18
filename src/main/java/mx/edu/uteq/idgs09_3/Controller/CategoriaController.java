@@ -13,19 +13,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+
 import mx.edu.uteq.idgs09_3.model.entity.Categorias;
 import java.util.List;
 import java.util.Optional;
 import mx.edu.uteq.idgs09_3.service.CategoriaService;
 
 
-@CrossOrigin(origins = "http://localhost:5173")
+
+
+
 @RestController 
 @RequestMapping("/api/categorias")
 public class CategoriaController {
 
     @Autowired
     private CategoriaService service;
+
+
 
     @GetMapping()
     public List<Categorias> buscarTodos(@RequestParam boolean soloActivo) {
@@ -40,7 +46,7 @@ public class CategoriaController {
     }
 
     @PostMapping()
-    public ResponseEntity<?> crear(@RequestBody Categorias c) {
+    public ResponseEntity<?> crear( @Validated @RequestBody Categorias c) {
         Categorias entity = service.crear(c);
         return ResponseEntity.ok(entity);
     }
