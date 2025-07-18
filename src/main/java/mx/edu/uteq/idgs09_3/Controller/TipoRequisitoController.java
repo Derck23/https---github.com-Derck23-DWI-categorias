@@ -14,7 +14,7 @@ import mx.edu.uteq.idgs09_3.model.entity.Categorias;
 import mx.edu.uteq.idgs09_3.model.repository.CategoriaRepo;
 
 
-@RestController @CrossOrigin
+@RestController
 @RequestMapping("/api/trequisitos")
 public class TipoRequisitoController {
 
