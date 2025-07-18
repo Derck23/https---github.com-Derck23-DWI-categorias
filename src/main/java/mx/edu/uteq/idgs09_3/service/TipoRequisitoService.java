@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.edu.uteq.idgs09_3.model.repository.TipoRequisitoRepo;
-import mx.edu.uteq.idgs09_3.model.entity.TipoRequisitos; // Asegúrate que la ruta es correcta
+import mx.edu.uteq.idgs09_3.model.entity.TipoRequisitos;
 
 @Service
 public class TipoRequisitoService {

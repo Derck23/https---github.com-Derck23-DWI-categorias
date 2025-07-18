@@ -17,7 +17,12 @@ import mx.edu.uteq.idgs09_3.model.entity.Categorias;
 import java.util.List;
 import java.util.Optional;
 import mx.edu.uteq.idgs09_3.service.CategoriaService;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Set;
+import java.util.HashSet;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController 
@@ -62,6 +67,32 @@ public class CategoriaController {
         return ResponseEntity.notFound().build();
     }
 
-    
+    // Lista blanca y negra de dominios
+    private static final Set<String> WHITELIST = Set.of("jsonplaceholder.typicode.com");
+    private static final Set<String> BLACKLIST = Set.of("malicious.com", "evil.org");
+
+    @GetMapping("/fetch-url")
+    public ResponseEntity<?> fetchUrl(@RequestParam String url) {
+        try {
+            URI uri = new URI(url);
+            String host = uri.getHost();
+
+            // Validación de listas
+            if (BLACKLIST.contains(host)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Dominio prohibido");
+            }
+            if (!WHITELIST.contains(host)) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Dominio no permitido");
+            }
+
+            RestTemplate restTemplate = new RestTemplate();
+            String resultado = restTemplate.getForObject(url, String.class);
+            return ResponseEntity.ok(resultado);
+        } catch (URISyntaxException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("URL inválida");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al acceder a la URL");
+        }
+    }
 
 }
